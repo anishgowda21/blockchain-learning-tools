@@ -25,10 +25,10 @@ const Block = () => {
       console.log("Somethinf changed");
 
       const message = `${blockNumber}${nonce}${data}`;
-      const hash = await digestMessage(message);
-      setHash(hash);
-      setIsValid(checkValidHash(hash));
-      console.log("Is valid", checkValidHash(hash));
+      const blockHash = await digestMessage(message);
+      setHash(blockHash);
+      setIsValid(checkValidHash(blockHash));
+      console.log("Is valid", checkValidHash(blockHash));
     };
 
     calculateHash();
