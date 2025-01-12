@@ -11,7 +11,7 @@ const Blockchain = () => {
   const [hash, setHash] = useState<string[]>(Array(4).fill(""));
   const [mining, setMining] = useState<boolean[]>(Array(4).fill(false));
   const miningRef = useRef<boolean>(false);
-  const [isValid, serIsValid] = useState<boolean[]>(Array(4).fill(false));
+  const [isValid, setIsValid] = useState<boolean[]>(Array(4).fill(false));
 
   useEffect(() => {
     const calculateHash = async () => {
@@ -23,6 +23,14 @@ const Blockchain = () => {
       const newHashes = await Promise.all(promises);
 
       setHash(newHashes);
+
+      setIsValid((prev) => {
+        const newValids = [...prev];
+        blockNumber.forEach((_, idx) => {
+          newValids[idx] = checkValidHash(hash[idx]);
+        });
+        return newValids;
+      });
 
       setPreviousHash((prev) => {
         const newPrevHash = [...prev];
@@ -118,7 +126,11 @@ const Blockchain = () => {
       {blockNumber.map((_, idx) => (
         <div
           key={idx}
-          className="gird grid-cols-1 gap-5 bg-grey-800 p-8 m-5 rounded-md shadow-2xl"
+          className={`gird grid-cols-1 gap-5 bg-grey-800 p-8 m-5 rounded-md shadow-2xl
+                ${
+                  isValid[idx] ? "ring-2 ring-green-500" : "ring-2 ring-red-500"
+                }
+            `}
         >
           <div className="space-y-3">
             <div>
