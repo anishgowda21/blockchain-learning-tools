@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Block from "./pages/Block";
 import Blockchain from "./pages/Blockchain.tsx";
 import NotFound from "./pages/NotFound";
+import Distributed from "./pages/Distributed.tsx";
 
 function App() {
   return (
@@ -15,7 +16,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/block" element={<Block />} />
-            <Route path="/blockchain" element={<Blockchain />} />
+            <Route
+              path="/blockchain"
+              element={<Blockchain name="Block Chain" />}
+            />
+            <Route path="/distributed" element={<Distributed />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

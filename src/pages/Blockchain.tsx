@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Blockcomponent from "../components/Blockcomponent";
+import Initializing from "../components/Initializing";
 
-const Blockchain = () => {
+const Blockchain = ({ name }: { name: string }) => {
   const blockNumber = [1, 2, 3, 4];
   const [nonce, setNonce] = useState<number[]>(Array(4).fill(0));
   const [data, setData] = useState<string[]>(Array(4).fill(""));
@@ -14,6 +15,18 @@ const Blockchain = () => {
   const miningRef = useRef<boolean>(false);
   const [isValid, setIsValid] = useState<boolean[]>(Array(4).fill(false));
   const [progress, setProgress] = useState<number[]>(Array(4).fill(0));
+  const [isInitializing, setIsInitializing] = useState<boolean>(true);
+
+  useEffect(() => {
+    const initializeMining = async () => {
+      setIsInitializing(true);
+      const promises = blockNumber.map(async (_, idx) => await mineNonce(idx));
+      await Promise.all(promises);
+      setIsInitializing(false);
+    };
+
+    initializeMining();
+  }, []);
 
   useEffect(() => {
     const calculateHash = async () => {
@@ -155,28 +168,32 @@ const Blockchain = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center bg-gradient-to-br from-blue-400 to-purple-500 text-transparent bg-clip-text">
-          Block Chain
+          {name}
         </h1>
       </div>
-      <div className=" flex items-center gap-4 overflow-x-auto pb-4">
-        {blockNumber.map((_, idx) => (
-          <Blockcomponent
-            idx={idx}
-            isValid={isValid}
-            blockNumber={blockNumber}
-            nonce={nonce}
-            data={data}
-            previousHash={previousHash}
-            hash={hash}
-            mining={mining}
-            progress={progress}
-            miningRef={miningRef}
-            handleNounceChange={handleNounceChange}
-            handleDataChange={handleDataChange}
-            handleMineNounce={handleMineNounce}
-          />
-        ))}
-      </div>
+      {isInitializing ? (
+        <Initializing />
+      ) : (
+        <div className=" flex items-center gap-4 overflow-x-auto pb-4">
+          {blockNumber.map((_, idx) => (
+            <Blockcomponent
+              idx={idx}
+              isValid={isValid}
+              blockNumber={blockNumber}
+              nonce={nonce}
+              data={data}
+              previousHash={previousHash}
+              hash={hash}
+              mining={mining}
+              progress={progress}
+              miningRef={miningRef}
+              handleNounceChange={handleNounceChange}
+              handleDataChange={handleDataChange}
+              handleMineNounce={handleMineNounce}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

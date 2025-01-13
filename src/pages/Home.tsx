@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
   return (
     <div className="container mx-auto px-4 py-16">
@@ -18,24 +20,35 @@ const Home = () => {
             well. For now, I have only added the Block implementation.
           </p>
 
-          <div className="bg-gray-800/50 rounded-lg p-6 mt-8">
-            <h2 className="text-xl font-semibold text-white mb-3">
-              Available Tools:
-            </h2>
-            <ul className="list-disc list-inside space-y-2">
-              <li className="text-green-400">
+          <ul className="list-disc list-inside space-y-2 min-w-[800px]">
+            <li>
+              <Link
+                to="/block"
+                className="text-green-400 hover:text-green-300 cursor-pointer"
+              >
                 Block Demo - Explore how blockchain hashing works
-              </li>
-              <li className="text-green-400">
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/blockchain"
+                className="text-green-400 hover:text-green-300 cursor-pointer"
+              >
                 Blockchain Demo - Explore how cryptographic hashes connect
                 blocks in a chain
-              </li>
-              <li className="text-gray-500">
-                Distributed Blockchain - Coming soon
-              </li>
-              <li className="text-gray-500">Tokens - Coming soon</li>
-            </ul>
-          </div>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/distributed"
+                className="text-green-400 hover:text-green-300 cursor-pointer"
+              >
+                Distributed Blockchain - Explore how multiple peers maintain
+                identical copies of the blockchain
+              </Link>
+            </li>
+            <li className="text-gray-500">Tokens - Coming soon</li>
+          </ul>
 
           <div className="text-sm text-gray-400 mt-8">
             <p>

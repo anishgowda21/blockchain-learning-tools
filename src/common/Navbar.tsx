@@ -11,6 +11,7 @@ const Navbar = () => {
     { name: "Home", id: "home", path: "/" },
     { name: "Block", id: "block", path: "/block" },
     { name: "Block Chain", id: "blockchain", path: "/blockchain" },
+    { name: "Distributed Blockchain", id: "distributed", path: "/distributed" },
   ];
 
   useEffect(() => {
