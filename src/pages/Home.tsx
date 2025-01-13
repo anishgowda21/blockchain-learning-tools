@@ -17,7 +17,7 @@ const Home = () => {
 
           <p className="text-lg leading-relaxed">
             I will gradually update this with other tools from his video as
-            well. For now, I have only added the Block implementation.
+            well. For now, I have only added the implementation below.
           </p>
 
           <ul className="list-disc list-inside space-y-2 min-w-[800px]">

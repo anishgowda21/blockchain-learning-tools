@@ -2,6 +2,8 @@
 
 An interactive web application built with React to help understand blockchain concepts. This project is inspired by Anders Brownworth's blockchain demonstration tools.
 
+🌐 **[Live Demo](https://bc-learn.anishgowda.dev/)**
+
 ## Features
 
 - **Block Demo**: Understand how hashing works in blockchain
@@ -44,4 +46,3 @@ npm install
 ```bash
 npm run dev
 ```
-
