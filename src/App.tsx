@@ -8,7 +8,7 @@ import Distributed from "./pages/Distributed.tsx";
 
 function App() {
   return (
-    <BrowserRouter basename="/blockchain-learning-tools">
+    <BrowserRouter>
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
         <Navbar />
         <div className="pt-16">
