@@ -20,8 +20,7 @@ const Blockchain = ({ name }: { name: string }) => {
   useEffect(() => {
     const initializeMining = async () => {
       setIsInitializing(true);
-      const promises = blockNumber.map(async (_, idx) => await mineNonce(idx));
-      await Promise.all(promises);
+      await mineNonce(0);
       setIsInitializing(false);
     };
 
