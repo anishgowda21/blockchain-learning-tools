@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Blockcomponent from "../components/Blockcomponent";
 
 const Blockchain = () => {
   const blockNumber = [1, 2, 3, 4];
@@ -12,6 +13,7 @@ const Blockchain = () => {
   const [mining, setMining] = useState<boolean[]>(Array(4).fill(false));
   const miningRef = useRef<boolean>(false);
   const [isValid, setIsValid] = useState<boolean[]>(Array(4).fill(false));
+  const [progress, setProgress] = useState<number[]>(Array(4).fill(0));
 
   useEffect(() => {
     const calculateHash = async () => {
@@ -63,7 +65,13 @@ const Blockchain = () => {
     let possibleNonce = 0;
 
     while (true) {
-      console.log(possibleNonce);
+      if (possibleNonce % 100 === 0) {
+        setProgress((prev) => {
+          const newProg = [...prev];
+          newProg[idx] = Math.min(99, Math.floor(possibleNonce / 1000));
+          return newProg;
+        });
+      }
 
       let message = `${blockNumber[idx]}${possibleNonce}${data[idx]}${previousHash[idx]}`;
       let minedHash = await digestMessage(message);
@@ -95,11 +103,33 @@ const Blockchain = () => {
   };
 
   const handleDataChange =
-    (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (idx: number) => (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setData((prevData) => {
         const newData = [...prevData];
         newData[idx] = e.target.value;
         return newData;
+      });
+    };
+
+  const handleNounceChange =
+    (idx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      let nonce;
+
+      if (e.target.value === "") {
+        nonce = 0;
+        return;
+      } else {
+        nonce = parseInt(e.target.value);
+
+        if (isNaN(nonce) || !Number.isInteger(nonce)) {
+          return;
+        }
+      }
+
+      setNonce((prev) => {
+        const newNonce = [...prev];
+        newNonce[idx] = nonce;
+        return newNonce;
       });
     };
 
@@ -122,46 +152,31 @@ const Blockchain = () => {
   };
 
   return (
-    <div className=" flex items-center gap-4 ">
-      {blockNumber.map((_, idx) => (
-        <div
-          key={idx}
-          className={`gird grid-cols-1 gap-5 bg-grey-800 p-8 m-5 rounded-md shadow-2xl
-                ${
-                  isValid[idx] ? "ring-2 ring-green-500" : "ring-2 ring-red-500"
-                }
-            `}
-        >
-          <div className="space-y-3">
-            <div>
-              <div>block: {blockNumber[idx]}</div>
-              <div>nonce: {nonce[idx]}</div>
-              <div>
-                data:{" "}
-                <input
-                  type="text"
-                  value={data[idx]}
-                  onChange={handleDataChange(idx)}
-                />
-              </div>
-              <div>
-                prev hash:{" "}
-                <input type="text" value={previousHash[idx]} disabled={true} />
-              </div>
-              <div className="break-all">hash: {hash[idx]}</div>
-              <div>
-                <button
-                  className="ring-2"
-                  onClick={handleMineNounce(idx)}
-                  disabled={miningRef.current}
-                >
-                  {mining[idx] ? "Mining" : "Mine"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center bg-gradient-to-br from-blue-400 to-purple-500 text-transparent bg-clip-text">
+          Block Chain
+        </h1>
+      </div>
+      <div className=" flex items-center gap-4 overflow-x-auto pb-4">
+        {blockNumber.map((_, idx) => (
+          <Blockcomponent
+            idx={idx}
+            isValid={isValid}
+            blockNumber={blockNumber}
+            nonce={nonce}
+            data={data}
+            previousHash={previousHash}
+            hash={hash}
+            mining={mining}
+            progress={progress}
+            miningRef={miningRef}
+            handleNounceChange={handleNounceChange}
+            handleDataChange={handleDataChange}
+            handleMineNounce={handleMineNounce}
+          />
+        ))}
+      </div>
     </div>
   );
 };

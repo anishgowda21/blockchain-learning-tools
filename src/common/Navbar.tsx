@@ -10,6 +10,7 @@ const Navbar = () => {
   const navigationLinks = [
     { name: "Home", id: "home", path: "/" },
     { name: "Block", id: "block", path: "/block" },
+    { name: "Block Chain", id: "blockchain", path: "/blockchain" },
   ];
 
   useEffect(() => {

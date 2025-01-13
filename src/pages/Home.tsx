@@ -26,7 +26,10 @@ const Home = () => {
               <li className="text-green-400">
                 Block Demo - Explore how blockchain hashing works
               </li>
-              <li className="text-gray-500">Blockchain Demo - Coming soon</li>
+              <li className="text-green-400">
+                Blockchain Demo - Explore how cryptographic hashes connect
+                blocks in a chain
+              </li>
               <li className="text-gray-500">
                 Distributed Blockchain - Coming soon
               </li>
